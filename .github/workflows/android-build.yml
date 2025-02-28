@@ -1,0 +1,31 @@
+name: Build APK
+
+on:
+  push:
+    branches:
+      - master  # Change this to your default branch if it's not 'main'
+  pull_request:
+    branches:
+      - master  # Change this to your default branch if it's not 'main'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'  # Specify the Java version your project uses
+
+    - name: Build with Gradle
+      run: ./gradlew assembleDebug  # Change this to your build command if necessary
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: my-app-apk
+        path: build/debug/app-debug.apk  # Adjust the path to your APK
